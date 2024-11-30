@@ -12,7 +12,7 @@ Utils-Translator 是一个专注于C语言编写的基础命令行类型工具�
 
 ### 依赖
 
-EC2Rust 需要 LLVM 7 或更高版本，对应的 clang 编译器和库, Python 3.6 或更高版本, CMake 3.4.3 或更高版本, 以及 openssl (1.0)。这些依赖可以通过以下命令安装：
+Utils-Translator 需要 LLVM 7 或更高版本，对应的 clang 编译器和库, Python 3.6 或更高版本, CMake 3.4.3 或更高版本, 以及 openssl (1.0)。这些依赖可以通过以下命令安装：
 
 - **OpenEuler 22.03:**
 
@@ -23,12 +23,11 @@ EC2Rust 需要 LLVM 7 或更高版本，对应的 clang 编译器和库, Python 
 ### 从git安装
 
 ```sh
-cargo install --git https://github.com/licheam/c2rust.git ec2rust
+cargo install --git https://github.com/licheam/utils-translator.git ec2rust
 ```
 
 ## Acknowledgements and Licensing
 
-This material is available under the BSD-3 style license as found in the
-[LICENSE](./LICENSE) file.
+This material is available under the BSD-3 style license as found in the [LICENSE](./LICENSE) file.
 
-The EC2Rust translator is based on the [C2Rust](github.com/immunant/c2rust) translator.
+The translator part of Utils-Translator is written based on the [C2Rust](github.com/immunant/c2rust) translator.
