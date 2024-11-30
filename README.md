@@ -6,7 +6,7 @@ Utils-Translator 是一个专注于C语言编写的基础命令行类型工具�
 
 以下是用C语言转换基础命令行工具为Rust的流程图：
 
-![Utils-Translator overview](overview.jpg "Utils-Translator overview")
+![Utils-Translator overview](docs/utils-translator.png "Utils-Translator overview")
 
 ## 安装
 
