@@ -12,18 +12,29 @@ Utils-Translator 是一个专注于C语言编写的基础命令行类型工具�
 
 ### 依赖
 
+#### Rust
+
+Utils-Translator 最好使用指定版本的Rust (nightly-2022-08-08)，可以通过以下命令安装：
+
+```sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain nightly-2022-08-08-x86_64-unknown-linux-gnu -y
+```
+
+#### 库
+
 Utils-Translator 需要 LLVM 7 或更高版本，对应的 clang 编译器和库, Python 3.6 或更高版本, CMake 3.4.3 或更高版本, 以及 openssl (1.0)。这些依赖可以通过以下命令安装：
 
 - **OpenEuler 22.03:**
 
     ```sh
-    dnf install python cmake pkg-config grpc-devel grpc-plugins protobuf-devel c-ares-devel gtest-devel gmock-devel llvm-libs-12.0.1-2.oe2203 llvm-devel-12.0.1-2.oe2203 clang-devel
+    dnf group install -y "Development Tools"
+    dnf install -y python cmake pkg-config grpc-devel grpc-plugins protobuf-devel c-ares-devel gtest-devel gmock-devel llvm-libs-12.0.1-2.oe2203 llvm-devel-12.0.1-2.oe2203 clang-devel
     ```
 
 ### 从git安装
 
 ```sh
-cargo install --git https://github.com/licheam/utils-translator.git ec2rust
+cargo install --git https://github.com/licheam/utils-translator.git ec2rust deps-builder
 ```
 
 ## Acknowledgements and Licensing
