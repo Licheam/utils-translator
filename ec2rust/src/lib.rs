@@ -7,8 +7,9 @@ use c2rust_transpile::{Diagnostic, ReplaceMode, TranspilerConfig};
 
 #[derive(Debug, Parser)]
 #[clap(
-name = "c2rust-transpile",
-author = "- The C2Rust Project Developers <c2rust@immunant.com>
+name = "ec2rust-transpile, deps-exporter",
+author = "- DEPSO (DEPendable SOftware) Research Group From ISCAS
+- The C2Rust Project Developers <c2rust@immunant.com>
 - Eric Mertens <emertens@galois.com>
 - Alec Theriault <atheriault@galois.com>",
 version,

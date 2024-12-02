@@ -34,8 +34,16 @@ Utils-Translator 需要 LLVM 7 或更高版本，对应的 clang 编译器和库
 ### 从git安装
 
 ```sh
-cargo install --git https://github.com/licheam/utils-translator.git ec2rust deps-builder
+cargo +nightly-2022-08-08-x86_64-unknown-linux-gnu --locked install --git https://github.com/licheam/utils-translator.git ec2rust deps-builder
 ```
+
+如果遇到ast-exporter无法编译，可能是因为LLVM没有安装或者没有查询到LLVM路径，可以尝试如下命令。
+
+```sh
+export LLVM_LIB_DIR=`your_llvm_lib_dir`
+```
+
+在OpenEuler 22.03上，`your_llvm_lib_dir` 应当是 `/usr/lib64`。
 
 ## Acknowledgements and Licensing
 
