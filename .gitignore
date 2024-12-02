@@ -49,10 +49,3 @@ marks.*.json
 # Outputs of `c2rust-analyze`
 inspect/
 *.analysis.txt
-
-*.json
-*.patch
-*.dot
-*.pdf
-dbg.txt
-rust/**
