@@ -45,6 +45,10 @@ export LLVM_LIB_DIR=`your_llvm_lib_dir`
 
 在OpenEuler 22.03上，`your_llvm_lib_dir` 应当是 `/usr/lib64`。
 
+## 文档
+
+见 [docs](./docs/README.md)。
+
 ## Acknowledgements and Licensing
 
 This material is available under the BSD-3 style license as found in the [LICENSE](./LICENSE) file.
