@@ -1,10 +1,12 @@
 [book]
 authors = ["Leachim"]
-language = "en"
+language = "zh-CN"
 src = "src"
 title = "utils-translator 用户操作手册"
 
 [output.html]
+smart-punctuation = true
+git-repository-url = "https://github.com/Licheam/utils-translator/tree/main/docs/book"
 
 [output.html.print]
 enable = true
