@@ -47,7 +47,7 @@ export LLVM_LIB_DIR=`your_llvm_lib_dir`
 
 ## 文档
 
-见 [docs](./docs/README.md)。
+见 [docs](https://leachim.wang/utils-translator/)。
 
 ## Acknowledgements and Licensing
 
