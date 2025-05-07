@@ -1,0 +1,12 @@
+[book]
+authors = ["Leachim"]
+language = "en"
+src = "src"
+title = "utils-translator 用户操作手册"
+
+[output.html]
+
+[output.html.print]
+enable = true
+page-break = true
+

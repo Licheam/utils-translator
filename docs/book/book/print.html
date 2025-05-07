@@ -1,0 +1,966 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>utils-translator 用户操作手册</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">utils-translator 用户操作手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="工具原理及使用说明"><a class="header" href="#工具原理及使用说明">工具原理及使用说明</a></h1>
+<h2 id="1-工具原理"><a class="header" href="#1-工具原理">1. 工具原理</a></h2>
+<p>基础命令工具集相对于其他C语言项目而言存在的特点是库文件分散，二进制文件众多且依赖关系错综复杂。比如openeular:22.03-lts中使用的coreutils-9.0就在160余个原地C语言文件和GNUlib中的800余个文件的相互依赖下生成了107个二进制文件。人工梳理这些依赖关系显得非常不现实。</p>
+<p>针对这个问题，本工具基于Clang解析的语法树的自动分析依赖。该工具首先先利用Bear等工具获取在编译基础命令时所调用的所有编译命令，得到Clang格式的compile_command.json文件。然后基于该文件通过Clang解析编译期间所涉及的所有C语言文件进行语法树解析，对不同文件之间语法树中出现的调用关系进行提取。因为C语言本身并不支持符号声明和定义之间的精确链接（在Rust中并不区分声明和定义），我们在此基础上设计了模糊匹配的依赖构建框架。依赖构建过程中可以将符号的声明和定义根据用户可调节的不同的模糊程度进行匹配，最终构建得到整个项目的依赖关系。
+<img src="./utils-translator.png" alt="流程图" /></p>
+<h2 id="2-工具使用说明"><a class="header" href="#2-工具使用说明">2. 工具使用说明</a></h2>
+<h3 id="21-依赖提取工具"><a class="header" href="#21-依赖提取工具">2.1 依赖提取工具</a></h3>
+<p>依赖提取工具名字为deps-exporter，使用方式基本如下：</p>
+<pre><code class="language-shell">deps-exporter [OPTIONS] &lt;COMPILE_COMMANDS&gt; [--] [EXTRA_CLANG_ARGS]...
+</code></pre>
+<p>用法与ec2rust-transpile工具基本相同，其中COMPILE_COMMANDS为编译命令文件，EXTRA_CLANG_ARGS为额外的Clang参数。两个命令区别在于deps-exporter只会输出依赖关系，而ec2rust-transpile会同时输出转换后的Rust代码。</p>
+<p>基础用法可以参考c2rust-transpile的<a href="https://c2rust.com/manual/c2rust-transpile/index.html">官方文档</a>，或者使用帮助命令<code>deps-exporter --help</code>查看。如下只谈及deps-exporter的特殊用法。</p>
+<p>deps-exporter支持的特殊选项如下：</p>
+<pre><code class="language-shell">    # 指定输出依赖关系的文件（json格式）
+    --dependency-file &lt;DEPENDENCY_FILE&gt;
+            Path to a file to write out the dependency information [default: ./dependencies.json]
+</code></pre>
+<h3 id="22-依赖构建库可视化工具"><a class="header" href="#22-依赖构建库可视化工具">2.2 依赖构建库/可视化工具</a></h3>
+<p>依赖构建库/可视化工具名字为deps-builder，使用方式基本如下：</p>
+<pre><code class="language-shell">deps-builder [OPTIONS]
+</code></pre>
+<p>主要参数如下：</p>
+<pre><code class="language-shell">    --bin &lt;BIN&gt;
+        Emit Rust dependencies for the given binaries
+
+    --bins
+        Emit Rust dependencies for all binaries (with main defined)
+
+    --dependency-dot &lt;DEPENDENCY_DOT&gt;
+        Path to a file to write the dependency graph to [default: ./dependencies.dot]
+
+    --dependency-file &lt;DEPENDENCY_FILE&gt;
+        Path to a file to with the dependency information [default: ./dependencies.json]
+
+    --fuzz-depends-level &lt;FUZZ_DEPENDS_LEVEL&gt;
+        Use fuzzing dependency checking [default: 0]
+</code></pre>
+<p>其中需要提供一个之前使用deps-exporter或者ec2rust-transpile生成的依赖关系文件（json），deps-builder会根据该文件构建整个项目的依赖关系。构建完成后，deps-builder会输出一个.dot文件，可以使用Graphviz工具将其转换为图片。同时，deps-builder作为一个库也可以被其他工具调用，用于构建整个项目的依赖关系。比如在ec2rust-transpile中就使用了deps-builder来构建整个项目的依赖关系。</p>
+<p>其中FUZZ_DEPENDS_LEVEL参数用于控制依赖关系的模糊程度，值越大匹配越模糊，总共有四档如下：</p>
+<ol start="0">
+<li>当且仅当符号的声明和定义所在的文件路径完全相同才会被匹配。</li>
+<li>当符号的声明和定义所在的文件名相同才会被匹配，比如<code>a.c</code>和<code>a.h</code>会被匹配。</li>
+<li>当符号的声明和定义所在的文件路径相同就会被匹配，比如<code>/a/b/c/d/x.c</code>和<code>/a/b/c/d/y.h</code>会被匹配。</li>
+<li>当符号的声明和定义相同则会被匹配。</li>
+</ol>
+<p>构建得到的依赖关系是一个有向图，其中节点为文件，边为文件之间的依赖关系。可以使用Graphviz工具将其转换为图片，如下是部分依赖关系图：</p>
+<p><img src="./coreutils/coreutils-example.png" alt="coreutils部分" /></p>
+<p><img src="./binutils/binutils-example.png" alt="binutils部分" /></p>
+<p>其中红色节点为二进制文件，其他是库文件。这里只展示了其中几个二进制且不包含gnulib的依赖关系。</p>
+<p>依赖构建会提取每个二进制的有向联通子图作为该二进制的依赖关系，因此可以通过<code>--bin</code>参数指定要提取的二进制文件，也可以通过<code>--bins</code>参数仅提取所有有main函数的二进制文件。</p>
+<h3 id="23-翻译工具"><a class="header" href="#23-翻译工具">2.3 翻译工具</a></h3>
+<p>翻译工具名字为ec2rust-transpile，其中包含了依赖提取工具和依赖构建工具。使用方式和deps-exporter基本相同，只是ec2rust-transpile会同时输出转换后的Rust代码。</p>
+<p>其中也包含了deps-builder参数，可以通过<code>--dependency-file</code>参数指定依赖关系文件的输出路径，通过<code>--fuzz-depends-level</code>参数指定依赖关系的模糊程度。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="基础命令重构指导方法"><a class="header" href="#基础命令重构指导方法">基础命令重构指导方法</a></h1>
+<h2 id="1-依赖关系"><a class="header" href="#1-依赖关系">1. 依赖关系</a></h2>
+<p>基础命令通常使用C语言编写，而且通常将大量二进制放在一个文件夹中，很多时候包含额外的依赖关系。比如coreutils-9.0中，在src文件夹内包含了所有的二进制文件和一些库文件，而在lib文件夹中包含了所有的GNUlib库文件。这些文件之间的依赖关系错综复杂，人工梳理这些依赖关系显得非常不现实。</p>
+<p>我们可以利用deps-exporter + deps-builder工具来自动分析依赖关系。先利用Bear等工具获取在编译基础命令时所调用的所有编译命令，得到Clang格式的compile_command.json文件。然后基于该文件通过Clang解析编译期间所涉及的所有C语言文件进行语法树解析，对不同文件之间语法树中出现的调用关系进行提取。最终构建得到整个项目的依赖关系。</p>
+<p>当然，如果不局限于分析依赖关系。还可以直接使用ec2rust-transpile工具将C语言代码转换为包含依赖分析的Rust代码，这样可以更好地维护和扩展基础命令。</p>
+<h2 id="2-代码重构"><a class="header" href="#2-代码重构">2. 代码重构</a></h2>
+<p>重构代码中需要注意分析基础命令的文件结构。比如对于coreutils来说，二进制全部包含在src中，GNUlib作为一个嵌入式的库文件无法单独提取出来作为库使用。对于这种情况我们通常将整个项目作为一个crate，然后将所有的二进制文件放在src中，然后构建全局的依赖关系。而如果是类似binutils的项目结构而言，binutils内置了多个文件夹作为库来使用，比如bfd、libiberty等。这种情况下，我们可以考虑针对不同文件夹创建Rust的crate，然后在主crate中通过Cargo.toml文件来创建库之间的依赖关系。</p>
+<h2 id="3-代码测试"><a class="header" href="#3-代码测试">3. 代码测试</a></h2>
+<p>详情可以见<a href="./%E5%85%BC%E5%AE%B9%E6%80%A7%E9%80%82%E9%85%8D%E4%B8%8E%E9%AA%8C%E8%AF%81.html">兼容性适配与验证</a>和<a href="./%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95.html">稳定性与性能测试</a>。</p>
+<h2 id="4-safer-rust"><a class="header" href="#4-safer-rust">4. Safer Rust</a></h2>
+<p>对于如何将unsafe代码转换为safer代码，我们总结了以下几个指导方法：</p>
+<ol>
+<li>使用安全的替代方案替代C中裸指针的使用
+裸指针操作可能会绕过 Rust 的所有权和生命周期检查，容易导致未定义行为。可以通过使用 Rust 提供的安全引用类型（如 &amp;T 或 &amp;mut T）来替代裸指针操作。如果确实需要使用裸指针，可以将其操作封装在一个安全的抽象中，确保外部调用者只使用安全的接口。</li>
+<li>使用 Rust 提供的内存管理工具
+手动分配和释放内存是导致悬垂指针和内存泄漏的常见原因。尽量避免直接操作内存分配接口（如 std::alloc），而是使用 Rust 提供的内存管理工具，例如 Box 用于堆内存分配，Rc 和 Arc 用于引用计数管理，以及 Vec 用于动态数组管理。这些工具能够自动处理内存的分配和释放，避免资源管理问题。</li>
+<li>检查数组和内存的边界条件
+在 unsafe 块中，操作数组或内存时没有边界检查，可能导致越界访问。可以通过增加显式的边界检查来避免此问题。最好使用 Rust 提供的切片或集合类型，因为它们自带边界检查功能。如果必须使用指针访问，务必手动验证指针的有效性和范围。</li>
+<li>尽量将 unsafe 代码封装在最小范围内
+当必须使用 unsafe 代码时，应将其限制在一个尽可能小的范围内，并在封装时提供安全的接口。这样可以减少暴露给用户的不安全行为，同时降低调试和维护的复杂度。</li>
+<li>逐步替换和验证 unsafe 代码
+将 unsafe 代码安全化时，不应一次性进行大规模重构，而是逐步分阶段替换。每次修改后都需要进行全面的测试，确保修改后的代码依然符合功能需求。可以通过单元测试、集成测试和边界测试来验证代码的安全性。</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="依赖关系分析"><a class="header" href="#依赖关系分析">依赖关系分析</a></h1>
+<p>依赖关系分析主要依赖于<code>dep-exporter</code>和<code>dep-builder</code>两个工具，其中<code>dep-exporter</code>用于提取依赖关系，<code>dep-builder</code>用于构建依赖关系。</p>
+<p>提取依赖工具前需要先通过<code>Bear</code>等工具获取在编译基础命令时所调用的所有编译命令，得到Clang格式的<code>compile_command.json</code>文件。然后基于该文件通过Clang解析编译期间所涉及的所有C语言文件进行语法树解析，对不同文件之间语法树中出现的调用关系进行提取。最终构建得到整个项目的依赖关系。</p>
+<p>具体构建方法已经在<a href="./%E5%B7%A5%E5%85%B7%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html">工具使用说明</a>中介绍，这里不再赘述。</p>
+<p>这里主要针对coreutils和binutils两个项目的依赖关系进行详细说明。</p>
+<h2 id="coreutils"><a class="header" href="#coreutils">coreutils</a></h2>
+<p>coreutils文件核心结构如下：</p>
+<pre><code class="language-shell">./coreutils-9.0
+|-- gnulib-tests # 一些测试文件
+|-- lib # gnulib库文件
+`-- src # 二进制文件和一些库文件
+</code></pre>
+<p>此时我们可以针对全局项目进行依赖关系构建，为了方便区分binary和library。utils-translator主动将所有二进制文件放在rust项目的根目录下。此时重构后的Rust项目结构如下：</p>
+<pre><code class="language-shell">./coreutils-rust
+|-- Cargo.toml
+|-- build.rs
+|-- rust-toolchain.toml
+|-- src # 里面结构同coreutils-9.0
+|   |-- gnulib_tests
+|   |-- lib
+|   `-- src
+`-- *.rs # 二进制文件
+</code></pre>
+<p>完整的依赖关系图可以看<a href="https://github.com/Licheam/coreutils-rust">coreutils-rust</a></p>
+<h2 id="binutils"><a class="header" href="#binutils">binutils</a></h2>
+<p>binutils文件核心结构如下：</p>
+<pre><code class="language-shell">./binutils-2.37
+|-- libctf # libctf库文件
+|-- libiberty # libiberty库文件
+|-- opcodes # opcodes库文件
+|-- zlib # zlib库文件
+|-- bfd # bfd库文件
+|-- gprof # gprof二进制文件
+|-- ld # ld二进制文件
+|-- gas # as二进制文件
+|-- gold # gold二进制文件
+`-- binutils # binutils二进制文件
+</code></pre>
+<p>可以看到binutils和coreutils最明显的不同是binutils内置了多个文件夹作为库来使用，这种情况下，我们可以考虑针对不同文件夹创建Rust的crate，然后在主crate中通过Cargo.toml文件来创建库之间的依赖关系。</p>
+<p>首先我们可以把用bear提取的compile_commands.json文件按照不同的文件夹进行分割，这里提供一个简单的脚本<a href="./filter.sh">filter.sh</a>来自动实现这个功能。</p>
+<p>对于每个compile_commands.json文件，我们考虑两种情况，第一种是作为库crate，第二种是作为二进制crate。对于库crate，依赖关系并不重要，所以我们可以直接用传统的c2rust来转换，对于二进制crate，我们需要考虑内部和外部的依赖关系。对于binutils，外部的依赖关系可以直接在Cargo.toml文件中添加，内部的依赖关系则通过我们的utils-translator工具集来提取。</p>
+<p>完整的依赖关系图可以看<a href="https://github.com/Licheam/binutils-rust">binutils-rust</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="utils重构实践"><a class="header" href="#utils重构实践">utils重构实践</a></h1>
+<p>这里将阐述详细的coreutils和binutils两个项目的重构实践。</p>
+<h2 id="coreutils-1"><a class="header" href="#coreutils-1">coreutils</a></h2>
+<p>我们选取coreutils-9.0项目进行重构。</p>
+<p>首先我们需要安装coreutils的依赖</p>
+<pre><code class="language-shell">$ sudo dnf group install -y "Development Tools"
+$ sudo dnf install -y wget texinfo openssl-devel gmp-devel
+</code></pre>
+<p>我们还需要安装<code>bear</code>工具和<code>utils-translator</code>工具，安装方式这里不再赘述。为了更好的展示，我们接下来会使用<code>jq</code>，<code>yq</code>和<code>sponge</code>等工具来处理toml文件，但是这些工具并不是必须的。</p>
+<p>然后我们下载并配置coreutils-9.0源码</p>
+<pre><code class="language-shell">$ wget https://mirrors.tuna.tsinghua.edu.cn/gnu/coreutils/coreutils-9.0.tar.xz
+$ tar -xvf coreutils-9.0.tar.xz
+$ cd coreutils-9.0
+$ ./configure --with-openssl --enable-install-program=arch --enable-no-install-program=kill,uptime,stdbuf
+</code></pre>
+<p>接下来我们需要使用<code>bear</code>工具来获取编译命令</p>
+<pre><code class="language-shell">$ bear -- make
+</code></pre>
+<p>此时，当前目录下已经生成了<code>compile_commands.json</code>文件。</p>
+<p>为了保证转义正常进行，我们先把一些难以处理的文件删除。</p>
+<pre><code class="language-shell">$ jq 'del(.[] | select(.file == "/home/user/coreutils-9.0/src/cksum_pclmul.c")) \
+    | del(.[] | select(.file == "/home/user/coreutils-9.0/src/factor.c")) \ 
+    | del(.[] | select(.file == "/home/user/coreutils-9.0/src/wc_avx2.c")) \
+    ' compile_commands.json &gt;compile_commands2.json
+</code></pre>
+<p>使用utils-translator工具进行转换，这里我们需要设置fuzz-depends-level为1，这样可以保证我们提取的依赖关系更加全面。对于不同项目需要针对性设置不同的fuzz-depends-level。</p>
+<pre><code class="language-shell">$ ec2rust-transpile -e compile_commands2.json -o coreutils-rust --detect-binary --emit-binaries --emit-no-lib --fuzz-depends-level 1
+</code></pre>
+<p>此时我们已经在当前目录下生成了coreutils-rust文件夹，里面包含了所有的Rust文件。然后我们需要给Rust项目增加一些外部的依赖关系。</p>
+<pre><code class="language-shell">$ cd coreutils-rust
+$ cargo add selinux-sys@0.4 -Z sparse-registry
+$ sed -i -E 's|(// add unix dependencies below)|\1\n     println!("cargo:rustc-flags=-lgmp -lcrypto");|g' ./build.rs
+</code></pre>
+<p>然后我们需要处理的是一些utils-translator工具出现的一些问题，下面是一些常见的问题：</p>
+<pre><code class="language-shell">$ sed -i 's|val != 0.|val != f128::f128::new(0)|g' numfmt.rs  &amp;&amp; \
+    sed -i 's|f128::f128::new(1.18973149535723176502e+4932)|f128::f128::MAX|g' numfmt.rs &amp;&amp; \
+    sed -i 's|f128::f128::new(1.18973149535723176502e+4932)|f128::f128::MAX|g' getlimits.rs &amp;&amp; \
+    sed -i "$(expr $(wc -l &lt; expr.rs) - 50),\$s|args|_args|g" expr.rs &amp;&amp; \
+    sed -i 's|::std::env::_args()|::std::env::args()|g' expr.rs &amp;&amp; \
+    sed -i -E ':a;N;$!ba;s|if 0 as libc::c_int != 0 \{\} else \{[[:space:]]*unreachable!\(\);[[:space:]]*\};|unreachable!();|g' paste.rs &amp;&amp; \
+    sed -i -E ':a;N;$!ba;s|if 0 as libc::c_int != 0 \{\} else \{[[:space:]]*unreachable!\(\);[[:space:]]*\};|unreachable!();|g' ptx.rs &amp;&amp; \
+    sed -i -E ':a;N;$!ba;s|if 0 as libc::c_int != 0 \{\} else \{[[:space:]]*unreachable!\(\);[[:space:]]*\};|unreachable!();|g' seq.rs &amp;&amp; \
+    sed -i -E ':a;N;$!ba;s|if 0 as libc::c_int != 0 \{\} else \{[[:space:]]*unreachable!\(\);[[:space:]]*\};|unreachable!();|g' sort.rs &amp;&amp; \
+    sed -i 's|(\*ap).a.a_longdouble = args.arg::&lt;f128::f128&gt;();|(*ap).a.a_longdouble = args.arg::&lt;libc::c_double&gt;();|g' src/lib/printf_args.rs
+</code></pre>
+<p>和一个依赖关系版本的问题</p>
+<pre><code class="language-shell">$ cargo update --package unicode-width --precise 0.1.13 -Z sparse-registry
+</code></pre>
+<p>然后我们跑一个<code>cargo fix</code>来修复一些<code>rust</code>可以解决的问题</p>
+<pre><code class="language-shell">$ cargo fix --broken-code --bins --keep-going -Z unstable-options -Z sparse-registry --allow-no-vcs || true
+</code></pre>
+<p>注意因为之前并没有完全解决所有的问题，所以这里可能会有一些报错，但是不影响整体的转换。</p>
+<p>此时还需要手动对二进制文件增加一个外部依赖。</p>
+<pre><code class="language-shell">sed -i 's/extern crate libc;/extern crate selinux_sys;\nextern crate libc;/g' ./*.rs
+</code></pre>
+<p>此时我们可以运行<code>cargo build</code>来构建整个项目。</p>
+<pre><code class="language-shell">$ cargo build --bins --keep-going -Z unstable-options -Z sparse-registry || true
+</code></pre>
+<p>至此应当可以预期有81个二进制文件成功构建。</p>
+<h2 id="binutils-1"><a class="header" href="#binutils-1">binutils</a></h2>
+<p>同样我们也先安装binutils的项目依赖</p>
+<pre><code class="language-shell">$ sudo dnf group install -y "Development Tools"
+$ sudo dnf install -y wget texinfo openssl-devel gmp-devel
+</code></pre>
+<p>我们选取binutils-2.37项目进行重构。</p>
+<pre><code class="language-shell">$ wget https://mirrors.tuna.tsinghua.edu.cn/gnu/binutils/binutils-2.37.tar.xz
+$ tar -xf binutils-2.37.tar.xz
+</code></pre>
+<p>然后我们需要使用<code>bear</code>工具来获取编译命令</p>
+<pre><code class="language-shell">$ cd binutils-2.37
+$ ./configure \
+    --enable-ld \
+    --enable-gold=default \
+    --with-sysroot=/ \
+    --enable-deterministic-archives=no \
+    --enable-lto \
+    --enable-compressed-debug-sections=none \
+    --enable-generate-build-notes=no \
+    --enable-targets=x86_64-pep --enable-relro=yes \
+    --enable-plugins \
+    --enable-shared
+$ bear -- make
+</code></pre>
+<p>此时，当前目录下已经生成了<code>compile_commands.json</code>文件，根据之前依赖关系分析的方法，我们可以使用<code>filter.sh</code>脚本来分割不同的文件夹。</p>
+<pre><code class="language-shell">$ ./filter.sh ./compile_commands.json
+</code></pre>
+<p>接下来我们进行逐个库的转换。</p>
+<pre><code class="language-shell"># zlib 库
+$ ec2rust-transpile -e compile_commands_zlib.json -o ./binutils-rust/zlib
+$ cd  ./binutils-rust/zlib
+$ yq eval '.package.name="zlib-sys" | .lib.name="zlib_sys"' Cargo.toml -oj | yj -jt | sponge Cargo.toml
+$ cargo add f128 -Z sparse-registry
+$ cargo build -Z sparse-registry
+
+# bfd 库
+$ cd `path/to/binutils-2.37`
+$ ec2rust-transpile -e compile_commands_bfd.json -o ./binutils-rust/bfd
+$ cd  ./binutils-rust/bfd
+$ yq eval '.package.name="bfd-sys" | .lib.name="bfd_sys"' Cargo.toml -oj | yj -jt | sponge Cargo.toml
+$ cargo add f128 -Z sparse-registry &amp;&amp; \
+    cargo add zlib-sys --path=../zlib -Z sparse-registry
+# 临时修复一些Rust处理不了的问题
+$ sed -i 's/*mut __va_list_tag/::core::ffi::VaList/g' ./src/*.rs
+$ sed -i 's|args\[i as usize\].ld = ap.arg::&lt;f128::f128&gt;();|args[i as usize].d = ap.arg::&lt;libc::c_double&gt;();|g' ./src/bfd.rs
+$ cargo fix --broken-code -Z sparse-registry --allow-no-vcs
+$ cargo build -Z sparse-registry
+
+# libctf 库
+$ cd `path/to/binutils-2.37`
+$ ec2rust-transpile -e compile_commands_libctf.json -o ./binutils-rust/libctf
+$ cd ./binutils-rust/libctf
+$ yq eval '.package.name="libctf-sys" | .lib.name="libctf_sys"' Cargo.toml -oj | yj -jt | sponge Cargo.toml
+$ cargo add zlib-sys --path=../zlib -Z sparse-registry
+$ cargo build -Z sparse-registry
+
+# libiberty 库
+$ cd `path/to/binutils-2.37`
+$ ec2rust-transpile -e compile_commands_libiberty.json -o ./binutils-rust/libiberty
+$ yq eval '.package.name="libiberty-sys" | .lib.name="libiberty_sys"' Cargo.toml -oj | yj -jt | sponge Cargo.toml
+$ cargo add f128 -Z sparse-registry
+# 临时修复一些Rust处理不了的问题
+$ sed -i '/unsafe extern "C" fn d_demangle_callback(/{n;n;n;n;n;n;n;N;N;N;N;N;N;N;N;N;N;N;N;d;}' ./src/cp_demangle.rs &amp;&amp; \
+  sed -i '/unsafe extern "C" fn d_demangle_callback(/{n;n;n;n;n;n;n;n;N;N;d;}' ./src/cp_demangle.rs &amp;&amp; \
+  sed -i -E ':a;N;$!ba;s|(let mut comps: Vec::&lt;demangle_component&gt;) = ::std::vec::from_elem\(\n([[:space:]]*let mut subs: Vec::&lt;\*mut demangle_component&gt;) = ::std::vec::from_elem\(|\1;\n\2;|g' ./src/cp_demangle.rs
+$ cargo build -Z sparse-registry
+
+# opcodes 库
+$ cd `path/to/binutils-2.37`
+# 这里我们无法直接使用utils-translator工具，因为opcodes库中的代码长度过大，所以我们直接使用C语言编译出来的库文件
+$ cd ./opcodes
+$ ar rcs libopcodes.a *.o
+$ mkdir `path/to/binutils-2.37`/binutils-rust/opcodes
+$ cp ./libopcodes.a `path/to/binutils-2.37`/binutils-rust/opcodes`
+
+# ld 库
+$ cd `path/to/binutils-2.37`
+# 删除所有testplug相关的条目
+$ jq '[.[] | select(.file | contains("testplug") | not)]' compile_commands_ld.json | sponge compile_commands_ld.json
+# 转译ld库
+$ ec2rust-transpile -e compile_commands_ld.json -o ./binutils-rust/ld --detect-binary --emit-binaries --emit-no-lib --fuzz-depends-level 2
+$ cd ./binutils-rust/ld
+# 添加依赖
+$ cargo add bfd-sys --path=../bfd -Z sparse-registry &amp;&amp; \
+  cargo add libiberty-sys --path=../libiberty -Z sparse-registry &amp;&amp; \
+  cargo add libctf-sys --path=../libctf -Z sparse-registry &amp;&amp; \
+  cargo add zlib-sys --path=../zlib -Z sparse-registry
+# 临时修复问题
+$ sed -i 's|*mut __va_list_tag|::core::ffi::VaList|g' ./src/*.rs ./ldmain.rs &amp;&amp; \
+  sed -i -E ':a;N;$!ba;s|;\n[[:space:]]*init(\n[[:space:]]*\})|\1|g' ./src/ei386pe.rs ./src/ei386pep.rs &amp;&amp; \
+  sed -i -E 's|let mut init = ([0-9a-zA-Z_]+) \{|\1 \{|g' ./src/ei386pe.rs ./src/ei386pep.rs &amp;&amp; \
+  sed -i 's/extern crate libc;/extern crate bfd_sys;\nextern crate libctf_sys;\nextern crate libiberty_sys;\nextern crate zlib_sys;\nextern crate libc;/g' ./ldmain.rs
+# 自动修复代码
+$ cargo fix --broken-code -Z sparse-registry --allow-no-vcs
+# 编译ld库
+$ cargo build -Z sparse-registry
+
+# binutils 二进制
+$ ec2rust-transpile -e compile_commands_binutils.json -o ./binutils-rust/binutils --detect-binary --emit-binaries --emit-no-lib
+$ cd ./binutils-rust/binutils
+$ cargo add bfd-sys --path=../bfd -Z sparse-registry &amp;&amp; \
+    cargo add libiberty-sys --path=../libiberty -Z sparse-registry &amp;&amp; \
+    cargo add libctf-sys --path=../libctf -Z sparse-registry &amp;&amp; \
+    cargo add zlib-sys --path=../zlib -Z sparse-registry
+# 添加依赖库路径到构建脚本
+$ sed -i -E 's|(// add unix dependencies below)|\1\n     println!("cargo:rustc-flags=-L../opcodes -l opcodes");|g' ./build.rs
+# 修复 extern crate 顺序和依赖
+$ sed -i 's/extern crate libc;/extern crate bfd_sys;\nextern crate libctf_sys;\nextern crate libiberty_sys;\nextern crate zlib_sys;\nextern crate libc;/g' ./*.rs
+$ cargo fix --broken-code -Z sparse-registry --allow-no-vcs
+$ cargo build -Z sparse-registry
+
+# as 库 (GNU 汇编器)
+$ cd `path/to/binutils-2.37`
+$ ec2rust-transpile -e compile_commands_gas.json -o ./binutils-rust/gas --detect-binary --emit-binaries --emit-no-lib
+$ cd ./binutils-rust/gas
+$ cargo add bfd-sys --path=../bfd -Z sparse-registry &amp;&amp; \
+    cargo add libiberty-sys --path=../libiberty -Z sparse-registry &amp;&amp; \
+    cargo add libctf-sys --path=../libctf -Z sparse-registry &amp;&amp; \
+    cargo add zlib-sys --path=../zlib -Z sparse-registry
+# 添加依赖库路径到构建脚本
+$ sed -i -E 's|(// add unix dependencies below)|\1\n     println!("cargo:rustc-flags=-L../opcodes -l opcodes");|g' ./build.rs
+# 修复函数声明中的问题
+$ sed -i -E 's/(unsafe extern "C" fn operand_type_(xor|and|or|and_not)\()/#[allow(unconditional_panic)]\n\1/g' ./src/config/tc_i386.rs &amp;&amp; \
+    sed -i '/pub type flag_code_0;/d' ./src/config/tc_i386.rs &amp;&amp; \
+    sed -i 's/flag_code_0/flag_code/g' ./src/config/tc_i386.rs
+$ sed -i 's/extern crate libc;/extern crate bfd_sys;\nextern crate libctf_sys;\nextern crate libiberty_sys;\nextern crate zlib_sys;\nextern crate libc;/g' ./*.rs
+$ cargo fix --broken-code -Z sparse-registry --allow-no-vcs
+$ cargo build -Z sparse-registry
+
+# gprof 库
+$ cd `path/to/binutils-2.37`
+$ ec2rust-transpile -e compile_commands_gprof.json -o ./binutils-rust/gprof --detect-binary --emit-binaries --emit-no-lib --fuzz-depends-level 2
+$ cd ./binutils-rust/gprof
+$ cargo add bfd-sys --path=../bfd -Z sparse-registry &amp;&amp; \
+    cargo add libiberty-sys --path=../libiberty -Z sparse-registry &amp;&amp; \
+    cargo add libctf-sys --path=../libctf -Z sparse-registry &amp;&amp; \
+    cargo add zlib-sys --path=../zlib -Z sparse-registry
+# 添加依赖库路径到构建脚本
+$ sed -i -E 's|(// add unix dependencies below)|\1\n     println!("cargo:rustc-flags=-L../opcodes -l opcodes");|g' ./build.rs
+# 修复 extern crate 顺序和依赖
+$ sed -i 's/extern crate libc;/extern crate bfd_sys;\nextern crate libctf_sys;\nextern crate libiberty_sys;\nextern crate zlib_sys;\nextern crate libc;/g' ./*.rs
+$ cargo fix --broken-code -Z sparse-registry --allow-no-vcs
+$ cargo build -Z sparse-registry
+</code></pre>
+<p>最后我们根据Rust的sub-crate机制，我们需要修改各个crate的Cargo.toml文件，使得他们能够正确的依赖。</p>
+<p>具体可以直接参考我们转译好的仓库<a href="https://github.com/Licheam/binutils-rust">binutils-rust</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="兼容性适配与验证"><a class="header" href="#兼容性适配与验证">兼容性适配与验证</a></h1>
+<p>在GNU utils中的工具经过Rust重写后，我们需要对其进行兼容性适配与验证，具体来说，要对其开展功能测试，以保证其功能的正确性。我们主要采用复用GNU已有的测试用例的方式，来确认Rust重写后的工具功能是否与原工具一致。</p>
+<p>建议使用全新的GNU utils环境进行测试，对于Rust转译所对应的GNU utils版本，可以使用如下命令进行下载：</p>
+<p>对binutils：</p>
+<pre><code class="language-bash">wget https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.gz
+tar -zxvf binutils-2.37.tar.gz
+</code></pre>
+<p>对coreutils：</p>
+<pre><code class="language-bash">git clone --recurse-submodules https://github.com/coreutils/coreutils.git
+cd coreutils
+git fetch --all --tags 
+git checkout tags/v9.0
+</code></pre>
+<h2 id="找到二进制路径"><a class="header" href="#找到二进制路径">找到二进制路径</a></h2>
+<p>首先，为了能够运行测试，我们需要找到编译后的二进制文件的路径。在GNU utils中，二进制文件的路径一般在<code>MakeFile</code>中定义，可以通过<code>MakeFile</code>中的关键词来找到对应的二进制文件路径。</p>
+<h3 id="寻找makefile中的可执行文件target目录"><a class="header" href="#寻找makefile中的可执行文件target目录">寻找MakeFile中的可执行文件TARGET目录</a></h3>
+<p>在<code>MakeFile</code>中的搜索<code>FOR_TARGET</code>关键词，如<code>ld</code>命令对应<code>LD_FOR_TARGET</code>，可以看到结果如下：</p>
+<pre><code class="language-makefile">LD_FOR_TARGET=$$r/$(HOST_SUBDIR)/ld/ld-new
+</code></pre>
+<p>又如<code>as</code>命令对应<code>AS_FOR_TARGET</code>，可以看到结果如下:</p>
+<pre><code class="language-makefile">AS_FOR_TARGET=$$r/$(HOST_SUBDIR)/gas/as-new
+</code></pre>
+<h3 id="寻找编译后的二进制可执行文件"><a class="header" href="#寻找编译后的二进制可执行文件">寻找编译后的二进制可执行文件</a></h3>
+<p>例：通过<code>find</code>命令寻找编译后的二进制文件：</p>
+<pre><code class="language-bash">find ./ -type f ! -name "*.*" | grep "ld"
+</code></pre>
+<h3 id="仅限coreutils的简化版操作"><a class="header" href="#仅限coreutils的简化版操作">仅限coreutils的简化版操作</a></h3>
+<p>在coreutils的测试环境中会更简单一些，因为coreutils的<code>MakeFile</code>中定义了<code>TESTS_ENVIRONMENT</code>变量，并会在测试时加载作为环境变量，其中部分片段如下：</p>
+<pre><code class="language-makefile">TESTS_ENVIRONMENT = \
+    ...
+    PATH='$(abs_top_builddir)/src$(PATH_SEPARATOR)'"$$PATH" \
+    ...
+</code></pre>
+<p>而向前查找<code>abs_top_builddir</code>可以发现其在<code>./configure</code>的时候被定义为了项目所在的文件夹，作为印证，我们确实可以直接在项目所在的文件夹的src目录下找到所有编译后的二进制文件。</p>
+<h2 id="替换测试中的二进制"><a class="header" href="#替换测试中的二进制">替换测试中的二进制</a></h2>
+<p>为了借用GNU已有的功能测试，我们需要修改和替换测试中调用的二进制，达到测试项目复用的目的。下面介绍两种替换方式。</p>
+<h3 id="直接替换二进制文件"><a class="header" href="#直接替换二进制文件">直接替换二进制文件</a></h3>
+<p>因为在<code>MakeFile</code>中已经定义了编译好后的target二进制文件路径，可以将rust重写后的二进制文件替换到对应的路径下并命名为对应的文件名，已实现对原二进制文件的覆盖。</p>
+<p>如ld项目的二进制文件位于<code>binutils-2.37/ld/ld-new</code>，可以将rust重写后的二进制文件替换到<code>binutils-2.37/ld/ld-new</code>路径下并命名为<code>ld-new</code>。例如使用如下命令</p>
+<pre><code class="language-bash">rm -rf ld/ld-new
+cp /home/user/binutils-2.37/rust/ld/target/debug/ld ld/ld-new
+</code></pre>
+<p>如as项目的二进制文件位于<code>binutils-2.37/gas/as-new</code>，可以将rust重写后的二进制文件替换到<code>binutils-2.37/gas/as-new</code>路径下并命名为<code>as-new</code>。例如使用如下命令</p>
+<pre><code class="language-bash">rm -rf gas/as-new
+cp /home/user/binutils-2.37/rust/as/target/debug/as gas/as-new
+</code></pre>
+<p>对于coreutils中的项目，因为其所有二进制文件都存放于src文件夹下，因此我们可以直接将rust转译后的二进制替换到src文件夹下</p>
+<pre><code class="language-bash">rsync -avh --progress /home/user/coreutils-rust/target/debug/ /home/user/coreutils-test/src/
+</code></pre>
+<h3 id="修改测试用例中的二进制文件路径"><a class="header" href="#修改测试用例中的二进制文件路径">修改测试用例中的二进制文件路径</a></h3>
+<p>GNU的coreutils和binutils都使用DejaGnu测试框架，其中如使用二进制的路径等内容会在 testsuite/config/default.exp文件中
+如ld项目的<code>testsuite/config/default.exp</code>中，搜索<code>ld-new</code>可见如下结果：</p>
+<pre><code>...
+if ![info exists ld] then {
+  set ld [findfile $base_dir/ld-new $base_dir/ld-new [transform ld]] 
+}
+...
+if ![info exists LD] then {
+  set LD [findfile $base_dir/ld-new ./ld-new [transform ld]] 
+}
+...
+# Set LD CLASS to "64bit" for a 64-bit *host* linker.
+if { ![info exists LD_CLASS] } then {
+  set REAL_LD [findfile $base_dir/.libs/ld-new .libs/ld-new $LD [transform ld]]
+  set readelf_output [run_host_cmd "$READELF" "-h $REAL_LD"] 
+  if { [regexp {[ \t]+Class:[ \t]+ELF64} $readelf_output] } then {
+    set LD_CLASS 64bit
+  } else {
+    set LD_CLASS 32bit
+  }
+}
+...
+</code></pre>
+<p>可按照如下方式修改</p>
+<pre><code>...
+set ld /home/user/binutils-2.37/rust/ld/target/debug/ld
+if ![info exists ld] then {
+    set ld [findfile $base_dir/ld-new $base_dir/ld-new [transform ld]]
+}
+...
+set LD /home/user/binutils-2.37/rust/ld/target/debug/ld
+if ![info exists ld] then {
+    set LD [findfile $base_dir/ld-new ./ld-new [transform ld]]
+}
+...
+set REAL_LD /home/user/binutils-2.37/rust/ld/target/debug/ld
+# Set LD_CLASS to "64bit" for a 64-bit *host* linker.
+if { ! [info exists LD_CLASS] } then {
+    set REAL_LD [findfile $base_dir/.libs/ld-new .libs/ld-new $LD [transform ld]]
+    set readelf_output [run_host_cmd "$READELF" "-h $REAL_LD"]
+    if {[regexp {[\t]+Class:[\t]+ELF64} $readelf_output] } then {
+        set LD_CLASS "64bit"
+    } else {
+        set LD_CLASS "32bit"
+    }
+}
+...
+</code></pre>
+<p>对于coreutils中的项目，因为其所有二进制文件都存放于src文件夹下，因此我们仅需将<code>$(abs_top_builddir)/src</code>的地址修改为rust重写后的二进制存放目录即可</p>
+<h2 id="运行测试并生成测试报告"><a class="header" href="#运行测试并生成测试报告">运行测试并生成测试报告</a></h2>
+<h3 id="运行测试"><a class="header" href="#运行测试">运行测试</a></h3>
+<p>在binutils中，可以通过如下命令运行完整测试：</p>
+<pre><code class="language-bash">./configure
+make check
+</code></pre>
+<p>也可以分别运行下列命令分别运行binutils、gas、ld的测试：</p>
+<pre><code class="language-bash">make check-binutils
+make check-gas
+make check-ld
+</code></pre>
+<p>在 binutils 测试运行完成后，结果摘要将位于 binutils 目录中的 binutils.sum 文件中。更详细的信息也将在 binutils/binutils.log 文件中提供。对于 gas 测试套件，结果位于 gas/testsuite/gas.sum 和 gas/testsuite/gas.log 文件中，而对于 ld 测试套件，它们位于 ld/ld.sum 和 ld/ld.log 文件中。</p>
+<p>在 coreutils 中，可以通过如下命令运行完整测试：</p>
+<pre><code class="language-bash">./bootstrap --skip-po --force 
+./configure --with-openssl --enable-install-program=arch --enable-no-install-program=kill,uptime
+RUN make check -j $(nproc) RUN_EXPENSIVE_TESTS=yes RUN_VERY_EXPENSIVE_TESTS=yes
+</code></pre>
+<p>在 coreutils 测试运行完成后，结果和详细的运行记录将位于 coreutils 目录中的 tests/test-suite.log 文件中。</p>
+<h3 id="生成测试报告"><a class="header" href="#生成测试报告">生成测试报告</a></h3>
+<p>在所提供的Dockfile中，我们分别准备一份使用了GNU utils原本二进制的测试环境和一份使用了Rust重写后的二进制的测试环境，以便于对比。对于binutils，这两个环境分别位于<code>/home/user/FunctionTest/binutils</code>和<code>/home/user/FunctionTest/rust-binutils</code>；对于coreutils，这两个环境分别位于<code>/home/user/test/coreutils-origin</code>和<code>/home/user/test/coreutils-rust</code>。</p>
+<p>我们提供了一个<code>diff.py</code>脚本以便快速对比两个测试环境的测试环境的异同。在binutils中，运行：</p>
+<pre><code class="language-bash">cd /home/user/FunctionTest &amp;&amp; python3 diff.py
+</code></pre>
+<p>产生形如下方的输出：</p>
+<pre><code class="language-bash">----------ld----------
+GNU:PASS: bootstrap
+Rust:UNTESTED: bootstrap
+
+GNU:PASS: bootstrap with strip
+Rust:UNTESTED: bootstrap with strip
+
+GNU:PASS: bootstrap with -Wl,--traditional-format
+Rust:UNTESTED: bootstrap with -Wl,--traditional-format
+
+GNU:PASS: bootstrap with -Wl,--no-keep-memory
+Rust:UNTESTED: bootstrap with -Wl,--no-keep-memory
+
+GNU:PASS: bootstrap with -Wl,--relax
+Rust:UNTESTED: bootstrap with -Wl,--relax
+----------gas----------
+No difference found.\n
+
+----------binutils----------
+No difference found.\n
+</code></pre>
+<p>在coreutils中，运行：</p>
+<pre><code class="language-bash">cd /home/user/test &amp;&amp; python3 diff.py
+</code></pre>
+<p>产生形如下方的输出：</p>
+<pre><code class="language-bash">Functional Test Result: 
+
+Rust:
+FAIL: tests/misc/sort-month
+FAIL: tests/misc/invalid-opt
+FAIL: tests/misc/sort
+FAIL: tests/misc/cut
+FAIL: tests/misc/numfmt
+FAIL: tests/misc/join
+
+GNU:
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="稳定性与性能测试"><a class="header" href="#稳定性与性能测试">稳定性与性能测试</a></h1>
+<p>为了确认稳定性、性能等指标，我们需要记录测试的具体运行时间，以便后续与原GNU utils或不同重构版本之间对比。下面也介绍两种记录方式。</p>
+<h2 id="使用性能测试工具hyperfine"><a class="header" href="#使用性能测试工具hyperfine">使用性能测试工具hyperfine</a></h2>
+<p>Hyperfine 是一个命令行模式的基准测试工具，支持多平台安装，提供统计分析、自定义命令执行、缓存清理、参数化测试等多种功能，可以导出结果为多种格式。</p>
+<p>我们可以使用下面的命令测试粗粒度地统计整个测试过程的的运行时间：</p>
+<pre><code class="language-bash">hyperfine --warmup 3 "cd /home/user/FunctionTest/rust-binutils &amp;&amp; make check-ld" "cd /home/user/FunctionTest/binutils &amp;&amp; make check-ld" --export-csv /home/user/binutils_result.csv --export-json /home/user/binutils_result.json --export-markdown /home/user/binutils_result.md
+</code></pre>
+<p>其中<code>cd /home/user/FunctionTest/rust-binutils &amp;&amp; make check-ld</code>和<code>cd /home/user/FunctionTest/binutils &amp;&amp; make check-ld</code>是两条要进行对比的具体运行的测试命令，分别对应Rust转译后二进制的测试和原GNU utils的测试。<code>--warmup 3</code>表示预热3次，预热的目的是缓解基准测试结果收到磁盘缓存的影响。对每个测试命令，在预热之后会执行十次并记录相关的运行耗时、计算平均耗时/方差等统计数据，若要修改运行的次数，可以添加<code>-r/--runs &lt;times&gt;</code>选项。<code>--export-csv /home/user/ld_result.csv</code>表示在对应目录位置导出csv格式的结果，<code>--export-json /home/user/ld_result.json</code>表示在对应目录位置导出json格式的结果，<code>--export-markdown /home/user/ld_result.md</code>表示在对应目录位置导出markdown格式的结果。</p>
+<p>经过一段时间的运行后，我们可以在对应的目录下找到生成的结果文件，以markdown格式为了，结果应如下所示：</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Test</th><th style="text-align: right">Mean [s]</th><th style="text-align: right">Min [s]</th><th style="text-align: right">Max [s]</th><th style="text-align: right">Relative</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>cd /home/user/FunctionTest/rust-binutils &amp;&amp; make check-ld</code></td><td style="text-align: right">151.721 ± 1.295</td><td style="text-align: right">150.342</td><td style="text-align: right">154.450</td><td style="text-align: right">1.00</td></tr>
+<tr><td style="text-align: left"><code>cd /home/user/FunctionTest/binutils &amp;&amp; make check-ld</code></td><td style="text-align: right">159.884 ± 1.022</td><td style="text-align: right">158.559</td><td style="text-align: right">162.088</td><td style="text-align: right">1.05 ± 0.01</td></tr>
+</tbody></table>
+</div>
+<p>从结果中我们可以看到，Rust转译后的二进制运行时间运行完整测试的耗时相对于原GNU utils的运行时间略有增加，但是差距很小。</p>
+<h3 id="通过二进制套壳记录运行时间"><a class="header" href="#通过二进制套壳记录运行时间">通过二进制套壳记录运行时间</a></h3>
+<p>hyperfine只能记录整个测试过程的运行时间，无法精确地记录经过和未经过Rust重写的二进制文件在测试过程中具体的运行时间，可能受到bash、DejaGnu等测试环境中其他因素的影响。因此，我们可以通过binary wrapping的方式，用外置程序调用原本希望进行测试的二进制文件，同时记录每次调用的运行时间，并在测试结束后进行统计以及对比。</p>
+<p>我们可以通过一个bash脚本来实现这一功能，脚本如下：</p>
+<pre><code class="language-bash">#!/bin/bash
+
+a=$(date +%s%N)
+/home/user/test/coreutils-origin/src/{file} "$@"
+r=$?
+b=$(date +%s%N)
+echo "$(echo "($b - $a)" | bc)" &gt;&gt; /home/user/GNU_times/{file}_time.txt
+exit $r
+</code></pre>
+<p>其中{file}的部分是需要进行测试的二进制文件名，我们可以将这个脚本命名为与原二进制相同的文件名，然后使用《兼容性适配与验证》中所介绍的二进制文件替换方法，从而实现通过此脚本调用被测二进制文件的“套壳”效果。在测试中，每次调用被测二进制文件时，脚本会记录该次调用的开始时间和结束时间，并将时间差添加到<code>/home/user/GNU_times/{file}_time.txt</code>文件中。通过对date使用<code>+%s%N</code>参数，我们可以获得纳秒级的时间戳，对于每次二进制调用，该时间精度足够记录有效的非零记录。</p>
+<p>需要注意，<code>_time.txt</code>文件的路径应该是一个已经存在的文件，否则脚本会报错。可以使用python脚本来批量创建这些套壳脚本和时间记录文件，以便于后续的测试。如对于coreutils这样所有二进制文件都一起存放于src文件夹下的项目，我们可以使用如下python脚本：</p>
+<pre><code class="language-python"># init.py
+import os
+import shutil
+import sys  
+
+files = [
+"base32_basenc","base64_basenc","basename","basenc_basenc","bench_md5","bench_sha1","bench_sha224","bench_sha256","bench_sha384","bench_sha512","cat","chcon","chgrp","chmod","chown","chroot","comm","cp","cut","dircolors","dirname","du","echo","env","expand","expr","false","fmt","fold","getlimits","groups","head","hostid","id","join","link","ln","locale","logname","make_prime_list","mkfifo","mknod","mktemp","mv","nice","nl","nohup","nproc","numfmt","paste","pathchk","pinky","pr","printenv","pwd","readlink","realpath","rm","runcon","shred","shuf","sleep","sort","split","sync","tac","tail","tee","test_localcharset","timeout","tr","true","truncate","tsort","tty","unexpand","uniq","unlink","users","whoami","yes",]
+
+def write_file(file):
+  with open(file, 'w') as f:
+    # 创建时间记录文件
+    os.system(f'touch /home/user/GNU_times//{file}_time.txt')
+    f.write(f"""
+#!/bin/bash
+a=$(date +%s%N)
+/home/user/test/coreutils-origin/src/{file} "$@"
+r=$?
+b=$(date +%s%N)
+echo "$(echo "($b - $a)" | bc)" &gt;&gt; /home/user/GNU_times//{file}_time.txt
+exit $r
+""")
+
+
+# 删除时间记录文件夹
+shutil.rmtree(f'/home/user/GNU_times', ignore_errors=True)
+# 创建时间记录文件夹
+os.system('mkdir /home/user/GNU_times/')
+
+# 依次创建套壳脚本和时间记录文件
+for file in files:
+  write_file(file)
+  os.system(f'chmod +x {file}')
+</code></pre>
+<p>在测试结束后，我们可以通过对这些时间记录文件进行统计，将单个时间记录文件中的时间求和，就能够精确得到每个二进制文件在测试中的总运行时间。我们同样可以使用python脚本来实现这一功能，如下：</p>
+<pre><code class="language-python"># statis.py
+# 创建一个../time_{时间戳}文件夹
+import os
+import time
+t = int(time.time())
+os.system(f'mkdir ../time_{t}') # 创建一个../time_{时间戳}文件夹用于保存结果
+
+# 读取../time目录下的所有文件
+files = os.listdir('../GNU_times')
+
+# 遍历文件
+for file in files:
+    # 读取文件内容
+    with open(f'../GNU_times/{file}', 'r') as f:
+        # 文件中的每行内容都是一个以纳秒为单位的时间，将其求和
+        total_time = sum([int(line) for line in f.readlines()])
+        # 将结果保存到time_{时间戳}文件夹下的{file}文件中
+        with open(f'../time_{t}/{file}', 'w') as f:
+            f.write(str(total_time))
+
+# 将../GNU_times文件夹保存为../time_{t}_raw文件夹
+os.system(f'mv ../GNU_times ../time_{t}_raw')
+</code></pre>
+<p>参考hyperfine的测试方法，我们可以运行多次测试，然后对其进行统计，得到每个二进制文件的平均运行时间、方差等统计数据，从而一定程度上消除测试环境中的其他因素对测试结果的影响，得到更加可靠的测试结果方便后续对比。</p>
+<p>以运行十次coreutils的GNU测试为例：</p>
+<pre><code class="language-bash">for i in {1..10}
+do
+    echo "运行第 $i 次"
+    cd /home/user/coreutils-rust/target/debug &amp;&amp; python3 init.py # 创建套壳脚本和时间记录文件，脚本位置仅供参考
+    cd /home/user/test/coreutils-rust &amp;&amp; make check -j $(nproc) RUN_EXPENSIVE_TESTS=yes RUN_VERY_EXPENSIVE_TESTS=yes || true # 运行测试
+    cd /home/user/coreutils-rust/target/debug &amp;&amp; python3 statics.py # 统计结果，脚本位置仅供参考
+done
+
+echo "全部运行完成"
+</code></pre>
+<p>测试完成后，我们可以计算平均值、方差等统计数据，并将其保存到一个json文件中：</p>
+<pre><code class="language-python"># 获取文件夹下所有格式为time_\d+的文件夹
+import os
+import re
+import shutil
+
+
+print(dirs)
+
+
+files = [
+"base32_basenc","base64_basenc","basename","basenc_basenc","bench_md5","bench_sha1","bench_sha224","bench_sha256","bench_sha384","bench_sha512","cat","chcon","chgrp","chmod","chown","chroot","comm","cp","cut","dircolors","dirname","du","echo","env","expand","expr","false","fmt","fold","getlimits","groups","head","hostid","id","join","link","ln","locale","logname","make_prime_list","mkfifo","mknod","mktemp","mv","nice","nl","nohup","nproc","numfmt","paste","pathchk","pinky","pr","printenv","pwd","readlink","realpath","rm","runcon","shred","shuf","sleep","sort","split","sync","tac","tail","tee","test_localcharset","timeout","tr","true","truncate","tsort","tty","unexpand","uniq","unlink","users","whoami","yes",]
+
+sums = {}
+mean = {}
+stddev = {}
+
+dirs = [d for d in os.listdir('/home/user/GNU_times') if re.match(r'time_\d+$', d)]
+
+# 对每个files，对所有文件夹下的file_time.txt文件求和
+for file in files:
+  total_time = 0
+  tmp = []
+  for d in dirs:
+    with open(f'/home/user/GNU_times/{d}/{file}_time.txt', 'r') as f:
+      this_time = sum([int(line) for line in f.readlines()])
+      total_time += this_time
+      tmp.append(this_time)
+  sums[file] = total_time
+  mean[file] = total_time / len(dirs)
+  # 计算标准差
+  stddev[file] = (sum([(t - mean[file]) ** 2 for t in tmp]) / len(dirs)) ** 0.5
+
+# 输出结果，全部将结果从ns转为s
+for file in files:
+  print(f'{file}: {sums[file] / 10**9}s, {mean[file] / 10**9}s, {stddev[file] / 10**9}s')
+
+
+
+print('-------------------')
+
+dirs_rust = [d for d in os.listdir('rust') if re.match(r'time_\d+$', d)]
+
+print(dirs_rust)
+
+
+sums_rust = {}
+mean_rust = {}
+stddev_rust = {}
+
+dirs = [d for d in os.listdir('/home/user/Rust_times') if re.match(r'time_\d+$', d)]
+
+# 对每个files，对所有文件夹下的file_time.txt文件求和
+for file in files:
+  total_time = 0
+  tmp = []
+  for d in dirs_rust:
+    with open(f'/home/user/Rust_times/{d}/{file}_time.txt', 'r') as f:
+      this_time = sum([int(line) for line in f.readlines()])
+      total_time += this_time
+      tmp.append(this_time)
+  sums_rust[file] = total_time
+  mean_rust[file] = total_time / len(dirs_rust)
+  # 计算标准差
+  stddev_rust[file] = (sum([(t - mean_rust[file]) ** 2 for t in tmp]) / len(dirs_rust)) ** 0.5
+
+# 输出结果，全部将结果从ns转为s
+for file in files:
+  print(f'{file}: {sums_rust[file] / 10**9}s, {mean_rust[file] / 10**9}s, {stddev_rust[file] / 10**9}s')
+
+
+with open('result.json', 'w') as f:
+  json.dump({
+    'mean': mean,
+    'stddev': stddev,
+    'mean_rust': mean_rust,
+    'stddev_rust': stddev_rust,
+  }, f)
+</code></pre>
+<p>对于result.json文件，我们可以直接查看并对比需要的数据，也可以通过python脚本进行进一步的处理，如绘制图表、进行进一步计算等。</p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+import json
+
+# 读取 JSON 文件
+with open('coreutils/result.json', 'r') as f:
+    data = json.load(f)
+with open('binutils/result.json', 'r') as f:
+    data_ = json.load(f)
+# 提取 values 和 errors
+values_gnu_ = list(data['mean'].values()) + list(data_['mean'].values())
+errors_gnu_ = list(data['stddev'].values()) + list(data_['stddev'].values())
+values_rust_ = list(data['mean_rust'].values()) + list(data_['mean_rust'].values())
+errors_rust_ = list(data['stddev_rust'].values()) + list(data_['stddev_rust'].values())
+names_ = list(data['mean'].keys()) + list(data_['mean'].keys())
+# 打印所有列表的len
+values_gnu=[]
+values_rust=[]
+errors_gnu=[]
+errors_rust=[]
+names=[]
+for i in range(len(names_)):
+    if values_gnu_[i] == 0 and values_rust_[i] == 0:
+        continue
+    values_gnu.append(values_gnu_[i])
+    values_rust.append(values_rust_[i])
+    errors_gnu.append(errors_gnu_[i])
+    errors_rust.append(errors_rust_[i])
+    names.append(names_[i])
+# 设置行数和列数
+n_plots = len(names)
+n_cols = 8
+n_rows = n_plots // n_cols + 1
+# 生成示例数据
+categories = ['GNU', 'Rust']
+# 创建n行m列的子图
+fig, axes = plt.subplots(n_rows, n_cols, figsize=(20, 30))  # 画布尺寸调整适合多个子图
+plt.subplots_adjust(hspace=0.5)  # 调整上下间距
+rust_quicker_than_gnu = 0
+gnu_quicker_than_rust = 0
+# 遍历每个子图进行绘制
+for i in range(n_rows):
+    for j in range(n_cols):
+        index_ = i * n_cols + j  # 当前子图索引
+        index = index_
+        if index &gt;= n_plots :
+            axes[i, j].axis('off')
+            continue
+        ax = axes[i, j]  # 选择当前子图
+        if values_gnu[index] &gt; values_rust[index]:
+            rust_quicker_than_gnu += 1
+        else:
+            gnu_quicker_than_rust += 1
+        # 设置values_gnu和values_rust的对比
+        ax.bar(categories, [values_gnu[index], values_rust[index]], yerr=[errors_gnu[index], errors_rust[index]], capsize=3,
+               color='skyblue', edgecolor='black')
+        # 设置子图标题
+        ax.set_title(names[index])
+        # 设置字体大小
+        ax.title.set_fontsize(16)
+        ax.xaxis.label.set_fontsize(14)
+        ax.yaxis.label.set_fontsize(14)
+        ax.tick_params(axis='both', which='major', labelsize=12)
+
+plt.show()
+plt.savefig('result.png')  # 保存图片
+
+# 计算rust比gnu快的次数和gnu比rust快的次数
+print(f'rust quicker than gnu: {rust_quicker_than_gnu}')
+print(f'gnu quicker than rust: {gnu_quicker_than_rust}')
+print(f'rust quicker than gnu: {rust_quicker_than_gnu / n_plots * 100}%')
+
+# 计算rust最慢的比其对应的gnu快慢多少
+result = 0
+result_index = 0
+for i in range(len(values_gnu)):
+    if values_gnu[i] &gt;= values_rust[i]:
+        continue    
+    result = max(result, (values_rust[i] - values_gnu[i]))
+    result_index = i
+
+print(f'（rust运行时间-gnu运行时间）最大值: {result / 1e9} s')
+print(f'（rust运行时间-gnu运行时间）/rust运行时间: {(result/values_rust[result_index])} %')
+print(f'这个rust二进制是: {(names[result_index])}')
+
+
+# 计算rust的deviation比gnu的deviation大多少
+result = 0
+result_index = 0
+for i in range(len(errors_gnu)):
+    if errors_gnu[i] &gt;= errors_rust[i]:
+        continue
+    result = max(result, (float(errors_rust[i]-errors_gnu[i])/float(values_rust[i])))
+    result_index = i
+
+print(f'（rust方差-gnu方差）/rust运行时间最大值: {result} %')
+print(f'（rust方差-gnu方差）: {(result * values_rust[result_index]) / 1e9} s')
+print(f'这个二进制是: {(names[result_index])}')
+...
+</code></pre>
+<p>绘图结果以如下形式展现：</p>
+<p><img src="https://raw.githubusercontent.com/SuperMaxine/pic-repo/master/img/202412061823483.png" alt="image-20241206182332448" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

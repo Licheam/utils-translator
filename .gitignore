@@ -49,3 +49,5 @@ marks.*.json
 # Outputs of `c2rust-analyze`
 inspect/
 *.analysis.txt
+
+.DS_Store

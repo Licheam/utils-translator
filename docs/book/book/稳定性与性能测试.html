@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>稳定性与性能测试 - utils-translator 用户操作手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">utils-translator 用户操作手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="稳定性与性能测试"><a class="header" href="#稳定性与性能测试">稳定性与性能测试</a></h1>
+<p>为了确认稳定性、性能等指标，我们需要记录测试的具体运行时间，以便后续与原GNU utils或不同重构版本之间对比。下面也介绍两种记录方式。</p>
+<h2 id="使用性能测试工具hyperfine"><a class="header" href="#使用性能测试工具hyperfine">使用性能测试工具hyperfine</a></h2>
+<p>Hyperfine 是一个命令行模式的基准测试工具，支持多平台安装，提供统计分析、自定义命令执行、缓存清理、参数化测试等多种功能，可以导出结果为多种格式。</p>
+<p>我们可以使用下面的命令测试粗粒度地统计整个测试过程的的运行时间：</p>
+<pre><code class="language-bash">hyperfine --warmup 3 "cd /home/user/FunctionTest/rust-binutils &amp;&amp; make check-ld" "cd /home/user/FunctionTest/binutils &amp;&amp; make check-ld" --export-csv /home/user/binutils_result.csv --export-json /home/user/binutils_result.json --export-markdown /home/user/binutils_result.md
+</code></pre>
+<p>其中<code>cd /home/user/FunctionTest/rust-binutils &amp;&amp; make check-ld</code>和<code>cd /home/user/FunctionTest/binutils &amp;&amp; make check-ld</code>是两条要进行对比的具体运行的测试命令，分别对应Rust转译后二进制的测试和原GNU utils的测试。<code>--warmup 3</code>表示预热3次，预热的目的是缓解基准测试结果收到磁盘缓存的影响。对每个测试命令，在预热之后会执行十次并记录相关的运行耗时、计算平均耗时/方差等统计数据，若要修改运行的次数，可以添加<code>-r/--runs &lt;times&gt;</code>选项。<code>--export-csv /home/user/ld_result.csv</code>表示在对应目录位置导出csv格式的结果，<code>--export-json /home/user/ld_result.json</code>表示在对应目录位置导出json格式的结果，<code>--export-markdown /home/user/ld_result.md</code>表示在对应目录位置导出markdown格式的结果。</p>
+<p>经过一段时间的运行后，我们可以在对应的目录下找到生成的结果文件，以markdown格式为了，结果应如下所示：</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Test</th><th style="text-align: right">Mean [s]</th><th style="text-align: right">Min [s]</th><th style="text-align: right">Max [s]</th><th style="text-align: right">Relative</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>cd /home/user/FunctionTest/rust-binutils &amp;&amp; make check-ld</code></td><td style="text-align: right">151.721 ± 1.295</td><td style="text-align: right">150.342</td><td style="text-align: right">154.450</td><td style="text-align: right">1.00</td></tr>
+<tr><td style="text-align: left"><code>cd /home/user/FunctionTest/binutils &amp;&amp; make check-ld</code></td><td style="text-align: right">159.884 ± 1.022</td><td style="text-align: right">158.559</td><td style="text-align: right">162.088</td><td style="text-align: right">1.05 ± 0.01</td></tr>
+</tbody></table>
+</div>
+<p>从结果中我们可以看到，Rust转译后的二进制运行时间运行完整测试的耗时相对于原GNU utils的运行时间略有增加，但是差距很小。</p>
+<h3 id="通过二进制套壳记录运行时间"><a class="header" href="#通过二进制套壳记录运行时间">通过二进制套壳记录运行时间</a></h3>
+<p>hyperfine只能记录整个测试过程的运行时间，无法精确地记录经过和未经过Rust重写的二进制文件在测试过程中具体的运行时间，可能受到bash、DejaGnu等测试环境中其他因素的影响。因此，我们可以通过binary wrapping的方式，用外置程序调用原本希望进行测试的二进制文件，同时记录每次调用的运行时间，并在测试结束后进行统计以及对比。</p>
+<p>我们可以通过一个bash脚本来实现这一功能，脚本如下：</p>
+<pre><code class="language-bash">#!/bin/bash
+
+a=$(date +%s%N)
+/home/user/test/coreutils-origin/src/{file} "$@"
+r=$?
+b=$(date +%s%N)
+echo "$(echo "($b - $a)" | bc)" &gt;&gt; /home/user/GNU_times/{file}_time.txt
+exit $r
+</code></pre>
+<p>其中{file}的部分是需要进行测试的二进制文件名，我们可以将这个脚本命名为与原二进制相同的文件名，然后使用《兼容性适配与验证》中所介绍的二进制文件替换方法，从而实现通过此脚本调用被测二进制文件的“套壳”效果。在测试中，每次调用被测二进制文件时，脚本会记录该次调用的开始时间和结束时间，并将时间差添加到<code>/home/user/GNU_times/{file}_time.txt</code>文件中。通过对date使用<code>+%s%N</code>参数，我们可以获得纳秒级的时间戳，对于每次二进制调用，该时间精度足够记录有效的非零记录。</p>
+<p>需要注意，<code>_time.txt</code>文件的路径应该是一个已经存在的文件，否则脚本会报错。可以使用python脚本来批量创建这些套壳脚本和时间记录文件，以便于后续的测试。如对于coreutils这样所有二进制文件都一起存放于src文件夹下的项目，我们可以使用如下python脚本：</p>
+<pre><code class="language-python"># init.py
+import os
+import shutil
+import sys  
+
+files = [
+"base32_basenc","base64_basenc","basename","basenc_basenc","bench_md5","bench_sha1","bench_sha224","bench_sha256","bench_sha384","bench_sha512","cat","chcon","chgrp","chmod","chown","chroot","comm","cp","cut","dircolors","dirname","du","echo","env","expand","expr","false","fmt","fold","getlimits","groups","head","hostid","id","join","link","ln","locale","logname","make_prime_list","mkfifo","mknod","mktemp","mv","nice","nl","nohup","nproc","numfmt","paste","pathchk","pinky","pr","printenv","pwd","readlink","realpath","rm","runcon","shred","shuf","sleep","sort","split","sync","tac","tail","tee","test_localcharset","timeout","tr","true","truncate","tsort","tty","unexpand","uniq","unlink","users","whoami","yes",]
+
+def write_file(file):
+  with open(file, 'w') as f:
+    # 创建时间记录文件
+    os.system(f'touch /home/user/GNU_times//{file}_time.txt')
+    f.write(f"""
+#!/bin/bash
+a=$(date +%s%N)
+/home/user/test/coreutils-origin/src/{file} "$@"
+r=$?
+b=$(date +%s%N)
+echo "$(echo "($b - $a)" | bc)" &gt;&gt; /home/user/GNU_times//{file}_time.txt
+exit $r
+""")
+
+
+# 删除时间记录文件夹
+shutil.rmtree(f'/home/user/GNU_times', ignore_errors=True)
+# 创建时间记录文件夹
+os.system('mkdir /home/user/GNU_times/')
+
+# 依次创建套壳脚本和时间记录文件
+for file in files:
+  write_file(file)
+  os.system(f'chmod +x {file}')
+</code></pre>
+<p>在测试结束后，我们可以通过对这些时间记录文件进行统计，将单个时间记录文件中的时间求和，就能够精确得到每个二进制文件在测试中的总运行时间。我们同样可以使用python脚本来实现这一功能，如下：</p>
+<pre><code class="language-python"># statis.py
+# 创建一个../time_{时间戳}文件夹
+import os
+import time
+t = int(time.time())
+os.system(f'mkdir ../time_{t}') # 创建一个../time_{时间戳}文件夹用于保存结果
+
+# 读取../time目录下的所有文件
+files = os.listdir('../GNU_times')
+
+# 遍历文件
+for file in files:
+    # 读取文件内容
+    with open(f'../GNU_times/{file}', 'r') as f:
+        # 文件中的每行内容都是一个以纳秒为单位的时间，将其求和
+        total_time = sum([int(line) for line in f.readlines()])
+        # 将结果保存到time_{时间戳}文件夹下的{file}文件中
+        with open(f'../time_{t}/{file}', 'w') as f:
+            f.write(str(total_time))
+
+# 将../GNU_times文件夹保存为../time_{t}_raw文件夹
+os.system(f'mv ../GNU_times ../time_{t}_raw')
+</code></pre>
+<p>参考hyperfine的测试方法，我们可以运行多次测试，然后对其进行统计，得到每个二进制文件的平均运行时间、方差等统计数据，从而一定程度上消除测试环境中的其他因素对测试结果的影响，得到更加可靠的测试结果方便后续对比。</p>
+<p>以运行十次coreutils的GNU测试为例：</p>
+<pre><code class="language-bash">for i in {1..10}
+do
+    echo "运行第 $i 次"
+    cd /home/user/coreutils-rust/target/debug &amp;&amp; python3 init.py # 创建套壳脚本和时间记录文件，脚本位置仅供参考
+    cd /home/user/test/coreutils-rust &amp;&amp; make check -j $(nproc) RUN_EXPENSIVE_TESTS=yes RUN_VERY_EXPENSIVE_TESTS=yes || true # 运行测试
+    cd /home/user/coreutils-rust/target/debug &amp;&amp; python3 statics.py # 统计结果，脚本位置仅供参考
+done
+
+echo "全部运行完成"
+</code></pre>
+<p>测试完成后，我们可以计算平均值、方差等统计数据，并将其保存到一个json文件中：</p>
+<pre><code class="language-python"># 获取文件夹下所有格式为time_\d+的文件夹
+import os
+import re
+import shutil
+
+
+print(dirs)
+
+
+files = [
+"base32_basenc","base64_basenc","basename","basenc_basenc","bench_md5","bench_sha1","bench_sha224","bench_sha256","bench_sha384","bench_sha512","cat","chcon","chgrp","chmod","chown","chroot","comm","cp","cut","dircolors","dirname","du","echo","env","expand","expr","false","fmt","fold","getlimits","groups","head","hostid","id","join","link","ln","locale","logname","make_prime_list","mkfifo","mknod","mktemp","mv","nice","nl","nohup","nproc","numfmt","paste","pathchk","pinky","pr","printenv","pwd","readlink","realpath","rm","runcon","shred","shuf","sleep","sort","split","sync","tac","tail","tee","test_localcharset","timeout","tr","true","truncate","tsort","tty","unexpand","uniq","unlink","users","whoami","yes",]
+
+sums = {}
+mean = {}
+stddev = {}
+
+dirs = [d for d in os.listdir('/home/user/GNU_times') if re.match(r'time_\d+$', d)]
+
+# 对每个files，对所有文件夹下的file_time.txt文件求和
+for file in files:
+  total_time = 0
+  tmp = []
+  for d in dirs:
+    with open(f'/home/user/GNU_times/{d}/{file}_time.txt', 'r') as f:
+      this_time = sum([int(line) for line in f.readlines()])
+      total_time += this_time
+      tmp.append(this_time)
+  sums[file] = total_time
+  mean[file] = total_time / len(dirs)
+  # 计算标准差
+  stddev[file] = (sum([(t - mean[file]) ** 2 for t in tmp]) / len(dirs)) ** 0.5
+
+# 输出结果，全部将结果从ns转为s
+for file in files:
+  print(f'{file}: {sums[file] / 10**9}s, {mean[file] / 10**9}s, {stddev[file] / 10**9}s')
+
+
+
+print('-------------------')
+
+dirs_rust = [d for d in os.listdir('rust') if re.match(r'time_\d+$', d)]
+
+print(dirs_rust)
+
+
+sums_rust = {}
+mean_rust = {}
+stddev_rust = {}
+
+dirs = [d for d in os.listdir('/home/user/Rust_times') if re.match(r'time_\d+$', d)]
+
+# 对每个files，对所有文件夹下的file_time.txt文件求和
+for file in files:
+  total_time = 0
+  tmp = []
+  for d in dirs_rust:
+    with open(f'/home/user/Rust_times/{d}/{file}_time.txt', 'r') as f:
+      this_time = sum([int(line) for line in f.readlines()])
+      total_time += this_time
+      tmp.append(this_time)
+  sums_rust[file] = total_time
+  mean_rust[file] = total_time / len(dirs_rust)
+  # 计算标准差
+  stddev_rust[file] = (sum([(t - mean_rust[file]) ** 2 for t in tmp]) / len(dirs_rust)) ** 0.5
+
+# 输出结果，全部将结果从ns转为s
+for file in files:
+  print(f'{file}: {sums_rust[file] / 10**9}s, {mean_rust[file] / 10**9}s, {stddev_rust[file] / 10**9}s')
+
+
+with open('result.json', 'w') as f:
+  json.dump({
+    'mean': mean,
+    'stddev': stddev,
+    'mean_rust': mean_rust,
+    'stddev_rust': stddev_rust,
+  }, f)
+</code></pre>
+<p>对于result.json文件，我们可以直接查看并对比需要的数据，也可以通过python脚本进行进一步的处理，如绘制图表、进行进一步计算等。</p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+import json
+
+# 读取 JSON 文件
+with open('coreutils/result.json', 'r') as f:
+    data = json.load(f)
+with open('binutils/result.json', 'r') as f:
+    data_ = json.load(f)
+# 提取 values 和 errors
+values_gnu_ = list(data['mean'].values()) + list(data_['mean'].values())
+errors_gnu_ = list(data['stddev'].values()) + list(data_['stddev'].values())
+values_rust_ = list(data['mean_rust'].values()) + list(data_['mean_rust'].values())
+errors_rust_ = list(data['stddev_rust'].values()) + list(data_['stddev_rust'].values())
+names_ = list(data['mean'].keys()) + list(data_['mean'].keys())
+# 打印所有列表的len
+values_gnu=[]
+values_rust=[]
+errors_gnu=[]
+errors_rust=[]
+names=[]
+for i in range(len(names_)):
+    if values_gnu_[i] == 0 and values_rust_[i] == 0:
+        continue
+    values_gnu.append(values_gnu_[i])
+    values_rust.append(values_rust_[i])
+    errors_gnu.append(errors_gnu_[i])
+    errors_rust.append(errors_rust_[i])
+    names.append(names_[i])
+# 设置行数和列数
+n_plots = len(names)
+n_cols = 8
+n_rows = n_plots // n_cols + 1
+# 生成示例数据
+categories = ['GNU', 'Rust']
+# 创建n行m列的子图
+fig, axes = plt.subplots(n_rows, n_cols, figsize=(20, 30))  # 画布尺寸调整适合多个子图
+plt.subplots_adjust(hspace=0.5)  # 调整上下间距
+rust_quicker_than_gnu = 0
+gnu_quicker_than_rust = 0
+# 遍历每个子图进行绘制
+for i in range(n_rows):
+    for j in range(n_cols):
+        index_ = i * n_cols + j  # 当前子图索引
+        index = index_
+        if index &gt;= n_plots :
+            axes[i, j].axis('off')
+            continue
+        ax = axes[i, j]  # 选择当前子图
+        if values_gnu[index] &gt; values_rust[index]:
+            rust_quicker_than_gnu += 1
+        else:
+            gnu_quicker_than_rust += 1
+        # 设置values_gnu和values_rust的对比
+        ax.bar(categories, [values_gnu[index], values_rust[index]], yerr=[errors_gnu[index], errors_rust[index]], capsize=3,
+               color='skyblue', edgecolor='black')
+        # 设置子图标题
+        ax.set_title(names[index])
+        # 设置字体大小
+        ax.title.set_fontsize(16)
+        ax.xaxis.label.set_fontsize(14)
+        ax.yaxis.label.set_fontsize(14)
+        ax.tick_params(axis='both', which='major', labelsize=12)
+
+plt.show()
+plt.savefig('result.png')  # 保存图片
+
+# 计算rust比gnu快的次数和gnu比rust快的次数
+print(f'rust quicker than gnu: {rust_quicker_than_gnu}')
+print(f'gnu quicker than rust: {gnu_quicker_than_rust}')
+print(f'rust quicker than gnu: {rust_quicker_than_gnu / n_plots * 100}%')
+
+# 计算rust最慢的比其对应的gnu快慢多少
+result = 0
+result_index = 0
+for i in range(len(values_gnu)):
+    if values_gnu[i] &gt;= values_rust[i]:
+        continue    
+    result = max(result, (values_rust[i] - values_gnu[i]))
+    result_index = i
+
+print(f'（rust运行时间-gnu运行时间）最大值: {result / 1e9} s')
+print(f'（rust运行时间-gnu运行时间）/rust运行时间: {(result/values_rust[result_index])} %')
+print(f'这个rust二进制是: {(names[result_index])}')
+
+
+# 计算rust的deviation比gnu的deviation大多少
+result = 0
+result_index = 0
+for i in range(len(errors_gnu)):
+    if errors_gnu[i] &gt;= errors_rust[i]:
+        continue
+    result = max(result, (float(errors_rust[i]-errors_gnu[i])/float(values_rust[i])))
+    result_index = i
+
+print(f'（rust方差-gnu方差）/rust运行时间最大值: {result} %')
+print(f'（rust方差-gnu方差）: {(result * values_rust[result_index]) / 1e9} s')
+print(f'这个二进制是: {(names[result_index])}')
+...
+</code></pre>
+<p>绘图结果以如下形式展现：</p>
+<p><img src="https://raw.githubusercontent.com/SuperMaxine/pic-repo/master/img/202412061823483.png" alt="image-20241206182332448" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="兼容性适配与验证.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="兼容性适配与验证.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
