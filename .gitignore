@@ -51,3 +51,6 @@ inspect/
 *.analysis.txt
 
 .DS_Store
+
+# mdBook
+/docs/book/book
